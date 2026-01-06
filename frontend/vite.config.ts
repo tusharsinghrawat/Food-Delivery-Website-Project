@@ -9,10 +9,12 @@ export default defineConfig(({ mode }: { mode: string }) => ({
     host: "::",
     port: 8080,
   },
+  base: "/Food-Delivery-Website-Project/",
   plugins: [
     react(),
     mode === "development" && componentTagger(),
   ].filter(Boolean),
+  
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
