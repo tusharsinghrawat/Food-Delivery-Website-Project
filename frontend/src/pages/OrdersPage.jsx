@@ -100,6 +100,24 @@ const OrderCard = ({ order, onCancel }) => {
     setIsCancelling(false);
   };
 
+  /* ===============================
+     ✅ IMAGE HANDLER (GITHUB PAGES SAFE)
+  ============================== */
+  const getItemImage = (image) => {
+    const base = import.meta.env.BASE_URL;
+
+    if (!image) return `${base}images/placeholder.jpg`;
+
+    // backend full URL
+    if (image.startsWith("http")) return image;
+
+    // absolute local path
+    if (image.startsWith("/")) return `${base}${image.slice(1)}`;
+
+    // local public/images
+    return `${base}images/${image}`;
+  };
+
   return (
     <Card>
       <CardHeader className="pb-3">
@@ -190,9 +208,13 @@ const OrderCard = ({ order, onCancel }) => {
                   className="flex items-center gap-3 text-sm"
                 >
                   <img
-                    src={item.image}
+                    src={getItemImage(item.image || item.foodItem?.image)}
                     alt={item.name}
                     className="w-14 h-14 rounded object-cover border"
+                    onError={(e) => {
+                      e.currentTarget.onerror = null;
+                      e.currentTarget.src = getItemImage();
+                    }}
                   />
 
                   <div className="flex-1">
@@ -331,5 +353,3 @@ const OrdersPage = () => {
 };
 
 export default OrdersPage;
-
-

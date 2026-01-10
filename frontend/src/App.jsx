@@ -2,7 +2,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import { CartProvider } from "@/context/CartContext";
 import { AuthProvider } from "@/context/AuthContext";
 import Index from "./pages/Index";
@@ -24,19 +24,20 @@ const App = () => (
         <TooltipProvider>
           <Toaster />
           <Sonner />
-          <BrowserRouter>
-            <Routes>
-              <Route path="/" element={<Index />} />
-              <Route path="/menu" element={<MenuPage />} />
-              <Route path="/restaurants" element={<RestaurantsPage />} />
-              <Route path="/restaurant/:id" element={<RestaurantDetailPage />} />
-              <Route path="/cart" element={<CartPage />} />
-              <Route path="/orders" element={<OrdersPage />} /> {/* ✅ FIX */}
-              <Route path="/auth" element={<AuthPage />} />
-              <Route path="/checkout" element={<CheckoutPage />} />
-              <Route path="*" element={<NotFound />} />
-            </Routes>
-          </BrowserRouter>
+
+          {/* ❌ BrowserRouter REMOVED */}
+          <Routes>
+            <Route path="/" element={<Index />} />
+            <Route path="/menu" element={<MenuPage />} />
+            <Route path="/restaurants" element={<RestaurantsPage />} />
+            <Route path="/restaurant/:id" element={<RestaurantDetailPage />} />
+            <Route path="/cart" element={<CartPage />} />
+            <Route path="/orders" element={<OrdersPage />} />
+            <Route path="/auth" element={<AuthPage />} />
+            <Route path="/checkout" element={<CheckoutPage />} />
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+
         </TooltipProvider>
       </CartProvider>
     </AuthProvider>

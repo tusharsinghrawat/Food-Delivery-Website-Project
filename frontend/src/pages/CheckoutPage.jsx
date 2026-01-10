@@ -101,7 +101,7 @@ const CheckoutPage = () => {
     food: String(item.foodItem._id),
     name: item.foodItem.name,       // ✅ ADD THIS
     price: item.foodItem.price,
-    image: item.foodItem.image,      // ✅ ADD THIS
+    image: item.foodItem.image || "",      // ✅ ADD THIS
     quantity: Number(item.quantity),
   };
 });

@@ -16,29 +16,29 @@ const FoodCard = ({ food }) => {
      ✔ click NEVER blocked
   ============================== */
   const handleAddToCart = (e) => {
-    e.stopPropagation(); // 🔥 click bug fix
+    e.stopPropagation();
 
     if (!food) {
       console.error("Food missing");
       return;
     }
 
-    // ⚠️ just info, NOT blocking
     if (!food._id) {
       console.warn("Frontend-only item added:", food.name);
     }
 
-    // ✅ clone object (important)
     addToCart({ ...food });
   };
 
   /* ===============================
-     IMAGE HANDLER (UNCHANGED)
+     ✅ IMAGE HANDLER (GITHUB PAGES SAFE)
   ============================== */
   const getLocalSrc = (image) => {
-    if (!image) return "/images/placeholder.jpg";
-    if (image.startsWith("/")) return image;
-    return `/images/${image}`;
+    const base = import.meta.env.BASE_URL;
+
+    if (!image) return `${base}images/placeholder.jpg`;
+    if (image.startsWith("/")) return `${base}${image.slice(1)}`;
+    return `${base}images/${image}`;
   };
 
   const getBackendSrc = (image) => {
@@ -66,7 +66,7 @@ const FoodCard = ({ food }) => {
           }}
           onError={(e) => {
             e.currentTarget.onerror = null;
-            e.currentTarget.src = "/images/placeholder.jpg";
+            e.currentTarget.src = `${import.meta.env.BASE_URL}images/placeholder.jpg`;
           }}
         />
 
@@ -127,5 +127,3 @@ const FoodCard = ({ food }) => {
 };
 
 export default FoodCard;
-
-

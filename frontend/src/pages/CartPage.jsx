@@ -20,6 +20,23 @@ import Footer from "@/components/layout/Footer";
 
 import { useCart } from "@/context/CartContext";
 import { useAuth } from "@/context/AuthContext";
+const getItemImage = (image) => {
+  const base = import.meta.env.BASE_URL;
+
+  if (!image) return base + "images/placeholder.jpg";
+
+  // full URL (cloudinary etc)
+  if (image.startsWith("http")) return image;
+
+  // "/images/..." → frontend public
+  if (image.startsWith("/")) return base + image.slice(1);
+
+  // "drinks/milkshake.jpg" OR "images/..."
+  if (image.startsWith("images/")) return base + image;
+
+  return base + "images/" + image;
+};
+
 
 const CartPage = () => {
   const {
@@ -106,16 +123,17 @@ const CartPage = () => {
                     <CardContent className="p-4">
                       <div className="flex gap-4">
                         <img
-                          src={item.foodItem.image}
-                          alt={item.foodItem.name}
-                          className="w-24 h-24 object-cover rounded-md"
-                          onError={(e) => {
-                            e.currentTarget.src =
-                              "/images/placeholder.jpg";
-                          }}
-                        />
-
-                        <div className="flex-1">
+                        src={getItemImage(item.foodItem.image)}
+                        alt={item.foodItem.name}
+                        className="w-24 h-24 object-cover rounded-md"
+                        onError={(e) => {
+                        e.currentTarget.onerror = null;
+                        e.currentTarget.src =
+                        import.meta.env.BASE_URL + "images/placeholder.jpg";
+                        }}
+                       />
+                          
+                          <div className="flex-1">
                           <div className="flex items-start justify-between">
                             <h3 className="font-semibold">
                               {item.foodItem.name}

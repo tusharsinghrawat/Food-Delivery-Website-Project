@@ -183,8 +183,8 @@ const Index = () => {
               <Link to="/restaurants">
                 <Button
                   size="lg"
-                  variant="outline"
-                  className="border-primary-foreground text-primary-foreground hover:bg-primary-foreground hover:text-primary"
+                  variant="secondary"
+                  
                 >
                   Browse Restaurants
                 </Button>

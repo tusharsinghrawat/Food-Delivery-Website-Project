@@ -4,15 +4,37 @@ import { Star, Clock, MapPin } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 const RestaurantCard = ({ restaurant }) => {
+  /* ===============================
+     ✅ IMAGE HANDLER (GITHUB PAGES SAFE)
+  ============================== */
+  const getRestaurantImage = (image) => {
+    const base = import.meta.env.BASE_URL;
+
+    if (!image) return `${base}images/placeholder.jpg`;
+
+    // backend full URL (if ever provided)
+    if (image.startsWith('http')) return image;
+
+    // local absolute path
+    if (image.startsWith('/')) return `${base}${image.slice(1)}`;
+
+    // local images folder
+    return `${base}images/${image}`;
+  };
+
   return (
     <Link to={`/restaurant/${restaurant.id}`}>
       <Card className="overflow-hidden group hover:shadow-lg transition-shadow cursor-pointer">
         <div className="relative aspect-[16/10] overflow-hidden">
           <img
-            src={restaurant.image}
+            src={getRestaurantImage(restaurant.image)}
             alt={restaurant.name}
             className="h-full w-full object-cover transition-transform group-hover:scale-105"
             loading="lazy"
+            onError={(e) => {
+              e.currentTarget.onerror = null;
+              e.currentTarget.src = `${import.meta.env.BASE_URL}images/placeholder.jpg`;
+            }}
           />
 
           {!restaurant.isOpen && (

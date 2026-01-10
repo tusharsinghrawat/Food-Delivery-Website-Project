@@ -7,6 +7,19 @@ import Footer from '@/components/layout/Footer';
 import FoodCard from '@/components/food/FoodCard';
 import { restaurants, foodItems } from '@/data/mockData';
 
+/* ===============================
+   ✅ IMAGE HELPER (FINAL FIX)
+   ✔ frontend images (public/images)
+   ✔ mock data compatible
+=============================== */
+const getRestaurantImage = (image) => {
+  const base = import.meta.env.BASE_URL;
+
+  if (!image) return `${base}images/placeholder.jpg`;
+  if (image.startsWith("/")) return `${base}${image.slice(1)}`;
+  return `${base}images/${image}`;
+};
+
 const RestaurantDetailPage = () => {
   const { id } = useParams();
   const restaurant = restaurants.find((r) => r.id === id);
@@ -44,7 +57,7 @@ const RestaurantDetailPage = () => {
         {/* Hero Image */}
         <div className="relative h-64 md:h-80">
           <img
-            src={restaurant.image}
+            src={getRestaurantImage(restaurant.image)}
             alt={restaurant.name}
             className="w-full h-full object-cover"
           />
