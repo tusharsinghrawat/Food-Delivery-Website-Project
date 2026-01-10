@@ -1,6 +1,14 @@
 import { Link, useLocation } from 'react-router-dom';
-import { ShoppingCart, User, Menu, X, UtensilsCrossed } from 'lucide-react';
-import { useState } from 'react';
+import {
+  ShoppingCart,
+  User,
+  Menu,
+  X,
+  UtensilsCrossed,
+  Sun,
+  Moon,
+} from 'lucide-react';
+import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { useCart } from '@/context/CartContext';
@@ -15,6 +23,22 @@ import {
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  // 🌙 Dark Mode state
+  const [dark, setDark] = useState(
+    localStorage.getItem('theme') === 'dark'
+  );
+
+  useEffect(() => {
+    if (dark) {
+      document.documentElement.classList.add('dark');
+      localStorage.setItem('theme', 'dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+      localStorage.setItem('theme', 'light');
+    }
+  }, [dark]);
+
   const { getTotalItems } = useCart();
   const { user, isAuthenticated, logout, isAdmin } = useAuth();
   const location = useLocation();
@@ -36,7 +60,9 @@ const Header = () => {
           <div className="flex h-10 w-10 items-center justify-center rounded-full bg-primary">
             <UtensilsCrossed className="h-5 w-5 text-primary-foreground" />
           </div>
-          <span className="text-xl font-bold text-primary">FoodExpress</span>
+          <span className="text-xl font-bold text-primary">
+            FoodExpress
+          </span>
         </Link>
 
         {/* Desktop Navigation */}
@@ -69,6 +95,20 @@ const Header = () => {
               )}
             </Button>
           </Link>
+
+          {/* 🌙 Dark Mode Toggle */}
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={() => setDark(!dark)}
+            title="Toggle theme"
+          >
+            {dark ? (
+              <Sun className="h-5 w-5" />
+            ) : (
+              <Moon className="h-5 w-5" />
+            )}
+          </Button>
 
           {/* User Menu */}
           {isAuthenticated ? (
